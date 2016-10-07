@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="825.0" prefWidth="1378.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.MainWindow">
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <Label text="All Songs:" />
+            <TextField fx:id="txtSongDir" editable="false" prefHeight="27.0" prefWidth="225.0" />
+            <Button fx:id="btnSongDirBrowse" mnemonicParsing="false" text="..." />
+            <Label text="Phase Shift Library:">
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="txtLibraryDir" editable="false" prefHeight="27.0" prefWidth="225.0" />
+            <Button fx:id="btnLibraryDirBrowse" mnemonicParsing="false" text="..." />
+            <Pane HBox.hgrow="ALWAYS" />
+            <ChoiceBox fx:id="choiceSearchType" prefHeight="27.0" prefWidth="80.0" />
+            <TextField fx:id="textSearchText" />
+        </items>
+      </ToolBar>
+   </top>
+   <bottom>
+      <ToolBar prefHeight="40.0" prefWidth="613.0" BorderPane.alignment="CENTER">
+        <items>
+            <CheckBox fx:id="cbMyLibrary" mnemonicParsing="false" text="Only show my library" />
+            <Button fx:id="btnAddToLibrary" mnemonicParsing="false" text="Add to library" />
+            <Button fx:id="btnRemoveFromLibrary" mnemonicParsing="false" text="Remove From Library" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnStop" mnemonicParsing="false" text="Stop" />
+            <Slider fx:id="sldVolume" value="100.0" />
+            <Label fx:id="lblNowPlaying" text="Now Playing:" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblFilesListed" text="0 File(s) Listed" />
+        </items>
+      </ToolBar>
+   </bottom>
+   <center>
+      <TableView fx:id="mainTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+            <TableColumn fx:id="colInLibrary" minWidth="0.0" prefWidth="71.0" text="In Library" />
+          <TableColumn fx:id="colEnclosingFolder" prefWidth="136.0" text="Folder" />
+            <TableColumn fx:id="colTitle" prefWidth="229.0" text="Title" />
+            <TableColumn fx:id="colArtist" minWidth="0.0" prefWidth="209.0" text="Artist" />
+            <TableColumn fx:id="colAlbum" minWidth="0.0" prefWidth="236.0" text="Album" />
+            <TableColumn fx:id="colGenre" prefWidth="75.0" text="Genre" />
+            <TableColumn fx:id="colYear" prefWidth="75.0" text="Year" />
+            <TableColumn fx:id="colBand" prefWidth="50.0" text="Band" />
+            <TableColumn fx:id="colGuitar" prefWidth="50.0" text="Guitar" />
+            <TableColumn fx:id="colVocals" prefWidth="50.0" text="Vocals" />
+            <TableColumn fx:id="colDrums" prefWidth="50.0" text="Drums" />
+            <TableColumn fx:id="colBass" prefWidth="50.0" text="Bass" />
+            <TableColumn fx:id="colKeys" prefWidth="50.0" text="Keys" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>
