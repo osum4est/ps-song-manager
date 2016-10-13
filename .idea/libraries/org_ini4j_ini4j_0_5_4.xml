@@ -3,6 +3,7 @@
     <properties maven-id="org.ini4j:ini4j:0.5.4" />
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/ini4j/ini4j/0.5.4/ini4j-0.5.4.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/ini4j/ini4j/0.5.4/ini4j-0.5.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

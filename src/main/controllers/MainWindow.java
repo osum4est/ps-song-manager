@@ -10,6 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -370,43 +371,58 @@ public class MainWindow implements Initializable {
 
     public void refresh()
     {
-        songList.clear();
+        ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(null, createScanFilesTask());
+        progressDialog.showAndWait();
+    }
 
-        try {
-            Path startPath = Paths.get(songDir);
-            Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult preVisitDirectory(Path dir,
-                                                         BasicFileAttributes attrs) {
+    public static int scanCurrentAmount;
+    public static int scanCurrentErrors;
+    private Task createScanFilesTask() {
+        return new Task() {
+            @Override
+            protected Object call() throws Exception {
+                songList.clear();
+                scanCurrentAmount = 0;
+                scanCurrentErrors = 0;
+
+                Path startPath = Paths.get(songDir);
+                Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult preVisitDirectory(Path dir,
+                                                             BasicFileAttributes attrs) {
 //                    System.out.println("Dir: " + dir.toString());
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-//                    System.out.println("File: " + file.toString());
-                    if (file.getFileName().toString().endsWith(".ini")) {
-                        Ini ini;
-                        try {
-                            ini = new Ini(file.toFile());
-                        } catch (Exception e) {
-                            return FileVisitResult.CONTINUE;
-                        }
-                        songList.add(new Song(ini, file.getParent(), new File(libraryDir + "/" + file.getParent().getFileName()).exists()));
+                        return FileVisitResult.CONTINUE;
                     }
-                    return FileVisitResult.CONTINUE;
-                }
 
-                @Override
-                public FileVisitResult visitFileFailed(Path file, IOException e) {
-                    System.out.println("File visit failed");
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        }
-        catch (Exception e) {
-            System.out.println("Unable to go through files");
-        }
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+//                    System.out.println("File: " + file.toString());
+                        if (file.getFileName().toString().endsWith(".ini")) {
+                            Ini ini;
+                            try {
+                                ini = new Ini(file.toFile());
+                            } catch (Exception e) {
+                                return FileVisitResult.CONTINUE;
+                            }
+                            songList.add(new Song(ini, file.getParent(), new File(libraryDir + "/" + file.getParent().getFileName()).exists()));
+                            scanCurrentAmount++;
+                            updateMessage("Scanned " + scanCurrentAmount + " files");
+                        }
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    @Override
+                    public FileVisitResult visitFileFailed(Path file, IOException e) {
+                        System.out.println("File visit failed");
+                        scanCurrentErrors++;
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+
+                return true;
+            }
+        };
     }
 
     static class ToolTipCell extends TableCell<String, String> {
