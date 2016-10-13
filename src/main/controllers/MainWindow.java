@@ -386,7 +386,14 @@ public class MainWindow implements Initializable {
                 scanCurrentAmount = 0;
                 scanCurrentErrors = 0;
 
+                if (songDir == null || songDir.isEmpty())
+                    return false;
+
                 Path startPath = Paths.get(songDir);
+
+                if (!startPath.toFile().exists())
+                    return false;
+
                 Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
                     @Override
                     public FileVisitResult preVisitDirectory(Path dir,
